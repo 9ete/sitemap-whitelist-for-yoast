@@ -1,6 +1,7 @@
 <?php
 /**
  * Plugin Name: Sitemap Whitelist for Yoast
+ * Version: 1.0.1
  * Description: Whitelist-based indexing + Yoast sitemap filtering. Only URLs in the whitelist are indexable and included in Yoast sitemaps.
  * Version: 1.0.0
  * Author: 9ete
@@ -418,6 +419,15 @@ final class Sitemap_Whitelist_for_Yoast {
 			return $robots;
 		}
 
+		// First try match by relative path (for lower env whitelists).
+		$parsed = wp_parse_url( $current );
+		$path   = isset( $parsed['path'] ) ? (string) $parsed['path'] : '';
+		$path   = $this->normalize_path( $path );
+		if ( '' !== $path && isset( $allowed[ $path ] ) ) {
+			return $robots;
+		}
+
+		// Fallback: match by absolute URL.
 		if ( isset( $allowed[ $current ] ) ) {
 			return $robots;
 		}
@@ -469,12 +479,19 @@ final class Sitemap_Whitelist_for_Yoast {
 			return $url;
 		}
 
-		$loc = $this->normalize_url( (string) $url['loc'] );
-		if ( empty( $loc ) ) {
-			return false;
+		$loc_raw = (string) $url['loc'];
+
+		// Match by relative path if whitelist contains paths.
+		$parsed = wp_parse_url( $loc_raw );
+		$path   = isset( $parsed['path'] ) ? (string) $parsed['path'] : '';
+		$path   = $this->normalize_path( $path );
+		if ( '' !== $path && isset( $allowed[ $path ] ) ) {
+			return $url;
 		}
 
-		if ( isset( $allowed[ $loc ] ) ) {
+		// Otherwise match by absolute URL.
+		$loc = $this->normalize_url( $loc_raw );
+		if ( ! empty( $loc ) && isset( $allowed[ $loc ] ) ) {
 			return $url;
 		}
 
@@ -618,6 +635,16 @@ final class Sitemap_Whitelist_for_Yoast {
 		$out = array();
 
 		foreach ( $urls as $u ) {
+			// Support relative paths for lower environments (e.g. "/pricing").
+			$u_trim = trim( (string) $u );
+			if ( '' !== $u_trim && '/' === $u_trim[0] ) {
+				$p = $this->normalize_path( $u_trim );
+				if ( '' !== $p ) {
+					$out[] = $p;
+				}
+				continue;
+			}
+
 			$n = $this->normalize_url( $u );
 			if ( empty( $n ) ) {
 				continue;
@@ -633,6 +660,45 @@ final class Sitemap_Whitelist_for_Yoast {
 		sort( $out );
 
 		return $out;
+	}
+
+	/**
+	 * Normalize a relative path.
+	 *
+	 * - Ensures leading slash
+	 * - Collapses duplicate slashes
+	 * - Removes trailing slash except for root "/"
+	 *
+	 * @param string $path Raw path.
+	 * @return string
+	 */
+	private function normalize_path( $path ) {
+		$path = trim( (string) $path );
+		if ( '' === $path ) {
+			return '';
+		}
+
+		// Strip query/fragment if someone pasted it.
+		$path = preg_replace( '/[?#].*$/', '', $path );
+
+		if ( '' === $path ) {
+			return '';
+		}
+
+		if ( '/' !== $path[0] ) {
+			$path = '/' . $path;
+		}
+
+		$path = preg_replace( '#/+#', '/', $path );
+		if ( null === $path || '' === $path ) {
+			$path = '/';
+		}
+
+		if ( '/' === $path ) {
+			return '/';
+		}
+
+		return untrailingslashit( $path );
 	}
 
 	/**
