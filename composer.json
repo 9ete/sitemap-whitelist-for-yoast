@@ -1,0 +1,41 @@
+{
+	"name": "9ete/sitemap-whitelist-for-yoast",
+	"description": "Whitelist-based indexing and Yoast SEO sitemap filtering for WordPress.",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"require": {
+		"php": ">=7.4"
+	},
+	"require-dev": {
+		"squizlabs/php_codesniffer": "^3.13",
+		"wp-coding-standards/wpcs": "^3.3",
+		"phpcompatibility/phpcompatibility-wp": "^2.1",
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.2",
+		"wp-cli/wp-cli-bundle": "^2.12",
+		"phpunit/phpunit": "^10.5"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		},
+		"platform": {
+			"php": "8.1"
+		}
+	},
+	"scripts": {
+		"install-hooks": "git config core.hooksPath .githooks",
+		"test": "phpunit",
+		"lint": "phpcs",
+		"lint:fix": "phpcbf",
+		"build-zip": "./bin/build-zip.sh",
+		"plugin-check": "./bin/plugin-check.sh",
+		"test:e2e": "npx cypress run",
+		"wp-repo-screenshots": "npx --no-install cypress run --spec tests/e2e/cypress/e2e/wp-repo-screenshots.cy.js && ./bin/sync-wp-repo-screenshots.sh",
+		"check": [
+			"@lint",
+			"@test",
+			"@test:e2e",
+			"@plugin-check"
+		]
+	}
+}

@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; }
+  body {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 6.2%;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: radial-gradient(120% 160% at 0% 0%, #2b3a67 0%, #1b2440 45%, #131a30 100%);
+    color: #fff; overflow: hidden;
+  }
+  .left { width: 62%; }
+  .kicker {
+    font-size: 3.4vh; letter-spacing: .35em; text-transform: uppercase;
+    color: #7c8db5; font-weight: 600; margin-bottom: 2.4vh;
+  }
+  h1 { font-size: 12.5vh; line-height: 1.02; font-weight: 800; letter-spacing: -.01em; }
+  h1 .accent { color: #34d399; }
+  .tag { margin-top: 3.2vh; font-size: 4.3vh; color: #c9d3ec; font-weight: 400; }
+  .right {
+    width: 31%; background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.10); border-radius: 3.2vh;
+    padding: 3.6vh 3.4vh;
+  }
+  .row { display: flex; align-items: center; gap: 2.2vh; margin: 2.0vh 0; font-size: 3.5vh; }
+  .row .u { color: #e7ecfa; font-family: ui-monospace, Menlo, monospace; }
+  .row.off .u { color: #5f6c8c; text-decoration: line-through; }
+  .badge { width: 4.6vh; height: 4.6vh; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex: none; }
+  .ok { background: #34d399; color: #0b1220; }
+  .no { background: rgba(255,255,255,.07); color: #5f6c8c; }
+  .badge svg { width: 2.6vh; height: 2.6vh; }
+</style>
+</head>
+<body>
+  <div class="left">
+    <div class="kicker">Indexing &amp; Sitemap Control</div>
+    <h1>Sitemap Whitelist<br><span class="accent">for Yoast</span></h1>
+    <div class="tag">Only the URLs you choose stay indexable.</div>
+  </div>
+  <div class="right">
+    <div class="row"><span class="badge ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span><span class="u">/pricing</span></div>
+    <div class="row"><span class="badge ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span><span class="u">/about</span></div>
+    <div class="row off"><span class="badge no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span><span class="u">/tag/misc</span></div>
+    <div class="row off"><span class="badge no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span><span class="u">/?p=1842</span></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+# Files excluded from the distribution (wp.org) zip.
+# Everything here is dev/build/QA tooling; the shipped plugin is the main PHP
+# file, readme.txt, LICENSE, languages/*.pot, and screenshot-*.png.
+
+# Build / VCS / meta
+.distignore
+.editorconfig
+.gitattributes
+.git
+.githooks
+.gitignore
+.github
+
+# Local tooling / IDE
+.vscode
+.idea
+*.swp
+.DS_Store
+
+# AI tooling
+.claude
+AGENTS.md
+CLAUDE.md
+
+# Dev dependencies / lockfiles
+node_modules
+npm-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+composer.json
+composer.lock
+
+# JS tooling config
+package.json
+cypress.config.js
+cypress.env.json
+
+# Cypress runtime output
+cypress
+
+# Tests / CI / QA
+bin
+tests
+phpunit.xml
+phpunit.xml.dist
+phpcs.xml
+phpcs.xml.dist
+.phpunit.result.cache
+*.md
+*.markdown
+
+# Vendor + build artifacts
+vendor
+zips
+*.zip
+
+# WordPress.org listing-only assets (banner/icon/screenshots live here in VCS)
+.wordpress-org

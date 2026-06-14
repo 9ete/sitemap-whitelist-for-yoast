@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<ruleset name="Sitemap Whitelist for Yoast">
+  <description>WordPress Coding Standards for Sitemap Whitelist for Yoast.</description>
+
+  <file>./</file>
+
+  <!--
+    Exclude tooling + build/vendor dirs only. Patterns are matched against the
+    file's ABSOLUTE path (case-insensitively), so they must be specific — a bare
+    */brain/* would match this repo's own path under ~/…/Brain/… and silently
+    exclude every file, turning `composer lint` into a no-op.
+  -->
+  <exclude-pattern>*/vendor/*</exclude-pattern>
+  <exclude-pattern>*/node_modules/*</exclude-pattern>
+  <exclude-pattern>*/.git/*</exclude-pattern>
+  <exclude-pattern>*/zips/*</exclude-pattern>
+  <exclude-pattern>*/.claude/*</exclude-pattern>
+  <exclude-pattern>*/tests/*</exclude-pattern>
+
+  <rule ref="WordPress" />
+  <rule ref="WordPress-Extra" />
+  <rule ref="WordPress-Docs" />
+
+  <!-- Single-file plugin: the main file holds the class, so relax file-name rules. -->
+  <rule ref="WordPress">
+    <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+    <exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+  </rule>
+  <rule ref="WordPress-Extra">
+    <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+    <exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+  </rule>
+
+  <!-- PHP compatibility: match the declared "Requires PHP: 7.4". -->
+  <config name="testVersion" value="7.4-"/>
+  <rule ref="PHPCompatibilityWP" />
+
+  <!-- Lock the text domain so a wrong/missing one is flagged. -->
+  <rule ref="WordPress.WP.I18n">
+    <properties>
+      <property name="text_domain" type="array">
+        <element value="sitemap-whitelist-for-yoast"/>
+      </property>
+    </properties>
+  </rule>
+
+  <!-- WordPress version floor for deprecation checks. -->
+  <config name="minimum_supported_wp_version" value="6.0"/>
+
+  <arg name="basepath" value="."/>
+  <arg name="colors"/>
+  <arg name="extensions" value="php"/>
+  <arg value="ps"/>
+</ruleset>

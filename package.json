@@ -1,0 +1,13 @@
+{
+	"name": "sitemap-whitelist-for-yoast",
+	"private": true,
+	"description": "E2E + screenshot tooling for the Sitemap Whitelist for Yoast plugin.",
+	"devDependencies": {
+		"cypress": "^13.17.0"
+	},
+	"scripts": {
+		"test:e2e": "cypress run",
+		"test:e2e:open": "cypress open",
+		"wp-repo-screenshots": "cypress run --spec tests/e2e/cypress/e2e/wp-repo-screenshots.cy.js && ./bin/sync-wp-repo-screenshots.sh"
+	}
+}
